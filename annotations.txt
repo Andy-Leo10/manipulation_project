@@ -1,0 +1,9 @@
+position of base_link in simulation
+x=5.299397
+y=-3.499645
+z=0.919264
+
+object size
+x=0.02
+y=0.02
+z=0.06
