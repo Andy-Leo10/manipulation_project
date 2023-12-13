@@ -15,7 +15,7 @@ ros2 topic echo /joint_states
 ## Launch most importants nodes
 + Move Group
 ```
-ros2 launch my_moveit_config move_group.launch.py
+ros2 launch my_moveit_config move_group.launch.py use_sim_time:=True
 ```
 + Robot Interface 
 ```

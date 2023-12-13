@@ -3,7 +3,16 @@ x=5.299397
 y=-3.499645
 z=0.919264
 
-object size
-x=0.02
-y=0.02
-z=0.06
+position of object in simulation
+x=5.28
+y=-3.84
+z= 1.0
+size of object
+w=0.02
+l=0.02
+h=0.06
+
+relative position between object respect base_link
+x=-0.019397
+y=0.340355
+z=0.080736
