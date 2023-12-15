@@ -24,10 +24,11 @@ public:
         move_group_gripper = std::make_shared<moveit::planning_interface::MoveGroupInterface>(move_group_node, PLANNING_GROUP_GRIPPER);
         joint_model_group_gripper = move_group_gripper->getCurrentState()->getJointModelGroup(PLANNING_GROUP_GRIPPER);
 
-        RCLCPP_INFO(LOGGER, "---------------------------INSTANTIATED!");
+        RCLCPP_INFO(LOGGER, "---------------------------INSTANTIATED!----------------------------------");
     }
 
     void move_joint_space(float angle_0, float angle_1, float angle_2, float angle_3, float angle_4, float angle_5) {
+        RCLCPP_INFO(LOGGER, "---------------------------MOVE JOINT STATE!----------------------------------");
         moveit::core::RobotStatePtr current_state = move_group_arm->getCurrentState(10);
 
         std::vector<double> joint_group_positions;
@@ -53,6 +54,7 @@ public:
     }
 
     void move_end_effector(double x, double y, double z, double roll_deg, double pitch_deg, double yaw_deg) {
+        RCLCPP_INFO(LOGGER, "---------------------------MOVE END EFFECTOR!----------------------------------");
         geometry_msgs::msg::Pose target_pose;
         tf2::Quaternion q;
         q.setRPY(roll_deg * M_PI/180.0, pitch_deg * M_PI/180.0, yaw_deg * M_PI/180.0);
@@ -76,7 +78,7 @@ public:
     }
 
     void move_waypoint(double delta, const std::string& direction) {
-        RCLCPP_INFO(LOGGER, "Move waypoint!");
+        RCLCPP_INFO(LOGGER, "---------------------------MOVE WAYPOINT!----------------------------------");
 
         std::vector<geometry_msgs::msg::Pose> waypoints;
         geometry_msgs::msg::Pose target_pose = move_group_arm->getCurrentPose().pose;
@@ -108,6 +110,7 @@ public:
     }
 
     void cmd_arm(const std::string& target_name) {
+        RCLCPP_INFO(LOGGER, "---------------------------ARM COMMAND!----------------------------------");
         RCLCPP_INFO(LOGGER, target_name.c_str());
 
         move_group_arm->setNamedTarget(target_name);
@@ -123,6 +126,7 @@ public:
     }
 
     void cmd_gripper(const std::string& target_name) {
+        RCLCPP_INFO(LOGGER, "---------------------------GRIPPER COMMAND!----------------------------------");
         RCLCPP_INFO(LOGGER, target_name.c_str());
 
         move_group_gripper->setNamedTarget(target_name);
@@ -137,6 +141,7 @@ public:
         }
     }
 
+    
 private:
     rclcpp::Node::SharedPtr move_group_node;
     std::shared_ptr<moveit::planning_interface::MoveGroupInterface> move_group_arm;
@@ -150,16 +155,65 @@ int main(int argc, char **argv) {
     rclcpp::init(argc, argv);
     RobotArm robotArm;
 
-    robotArm.cmd_arm("home");
-    robotArm.cmd_gripper("gripper_open");
+    // robotArm.cmd_arm("home");
+    
     // Shoulder Pan | Shoulder Lift | Elbow | Wrist 1 | Wrist 2 | Wrist 3
-    robotArm.move_joint_space(3.47, -1.64, -1.59, -1.47, 1.56, -5.70);
-    robotArm.cmd_gripper("gripper_close");
+    robotArm.move_joint_space(3.87, -1.75, -1.46, -1.48, 1.55, -5.56);
+    robotArm.cmd_gripper("gripper_open");
+
     // robotArm.move_end_effector(0.2, -0.34, 0.28, 180.0, 0.0, 0.0);
-    robotArm.move_waypoint(-0.1, "z");
-    robotArm.move_waypoint(0.1, "x");
-    robotArm.move_waypoint(0.2, "y");
+    robotArm.move_waypoint(-0.05, "z");
+    robotArm.cmd_gripper("gripper_close");
+
+    robotArm.move_waypoint(0.15, "z");
+
+    robotArm.move_joint_space(0.73, -1.75, -1.46, -1.48, 1.55, -5.56);
+    robotArm.cmd_gripper("gripper_open");
+    // robotArm.move_waypoint(0.1, "x");
+    // robotArm.move_waypoint(0.2, "y");
 
     rclcpp::shutdown();
     return 0;
 }
+
+//std::this_thread::sleep_for(std::chrono::seconds(2)); 
+
+
+
+//SIMULATION
+
+//// robotArm.cmd_arm("home");
+//    
+//// Shoulder Pan | Shoulder Lift | Elbow | Wrist 1 | Wrist 2 | Wrist 3
+//robotArm.move_joint_space(3.47, -1.64, -1.59, -1.47, 1.56, -5.70);
+//robotArm.cmd_gripper("gripper_open");
+//
+//// robotArm.move_end_effector(0.2, -0.34, 0.28, 180.0, 0.0, 0.0);
+//robotArm.move_waypoint(-0.1, "z");
+//robotArm.cmd_gripper("gripper_close");
+//
+//robotArm.move_waypoint(0.1, "z");
+//
+//robotArm.move_joint_space(6.1, -1.64, -1.59, -1.47, 1.56, -5.70);
+//robotArm.cmd_gripper("gripper_open");
+//// robotArm.move_waypoint(0.1, "x");
+//// robotArm.move_waypoint(0.2, "y");
+
+
+// real
+//name:
+//- shoulder_pan_joint
+//- shoulder_lift_joint
+//- elbow_joint
+//- wrist_2_joint
+//- wrist_3_joint
+//- wrist_1_joint
+//- robotiq_85_left_knuckle_joint
+//position:
+//- 3.8768582344055176
+//- -1.755254407922262
+//- -1.4605872631072998
+//- 1.5563348531723022
+//- -5.568978134785787
+//- -1.4893387046507378
+//- 0.7929
