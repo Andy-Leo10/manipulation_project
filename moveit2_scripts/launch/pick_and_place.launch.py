@@ -27,6 +27,7 @@ def generate_launch_description():
             moveit_config.robot_description_semantic,
             moveit_config.robot_description_kinematics,
             {'use_sim_time': use_sim_time},
+            {'is_robot_sim': use_sim_time},
         ],
     )
 
