@@ -16,3 +16,22 @@ relative position between object respect base_link
 x=-0.019397
 y=0.340355
 z=0.080736
+
+name:
+- shoulder_pan_joint
+- shoulder_lift_joint
+- elbow_joint
+- wrist_2_joint
+- wrist_3_joint
+- wrist_1_joint
+- robotiq_85_left_knuckle_joint
+position:
+- 3.479898861579488
+- -1.645266757295964
+- -1.5986352748367567
+- 1.5691677608597017
+- -5.704681616196984
+- -1.4787454182521402
+- 3.943321953414625e-06
+
+-------------------------------------------------------
