@@ -1,6 +1,10 @@
 # manipulation_project
 manipulation project with robot UR3e
 
+
+https://github.com/Andy-Leo10/manipulation_project/assets/60716487/e5a08704-20b6-412d-92f0-49e8a993472b
+
+
 ## Run the simulation
 ```
 source ~/ros2_ws/install/setup.bash
