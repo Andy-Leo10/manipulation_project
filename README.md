@@ -44,5 +44,5 @@ ros2 run tf2_ros tf2_echo base_link tool0
 ```
 Generate new cube in simulation
 ```
-ros2 run gazebo_ros spawn_entity.py -file ~/ros2_ws/src/grasp_box.urdf -x 5.28 -y -3.84 -z 1.0 -entity grasp_box_x
+ros2 run gazebo_ros spawn_entity.py -file /home/user/ros2_ws/src/manipulation_project/grasp_box.urdf -x 5.28 -y -3.84 -z 1.0 -entity grasp_box_x
 ```
