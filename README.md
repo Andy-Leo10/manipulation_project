@@ -16,14 +16,17 @@ ros2 topic echo /joint_states
 + Move Group
 ```
 ros2 launch my_moveit_config move_group.launch.py use_sim_time:=True
+ros2 launch real_moveit_config move_group.launch.py use_sim_time:=False
 ```
 + Robot Interface 
 ```
 ros2 launch my_moveit_config moveit_rviz.launch.py
+ros2 launch real_moveit_config moveit_rviz.launch.py
 ```
 + Custom Task: Pick & Place
 ```
 ros2 launch moveit2_scripts pick_and_place.launch.py use_sim_time:=True
+ros2 launch moveit2_scripts pick_and_place.launch.py use_sim_time:=False
 ```
 
 ## Others

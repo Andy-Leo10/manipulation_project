@@ -1,0 +1,54 @@
+# MoveIt uses this configuration for controller management
+
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+moveit_simple_controller_manager:
+  controller_names:
+    - scaled_joint_trajectory_controller
+    - robotiq_gripper_controller
+
+  scaled_joint_trajectory_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+  robotiq_gripper_controller:
+    type: GripperCommand
+    action_ns: gripper_cmd
+    default: true
+    joints:
+      - robotiq_85_left_knuckle_joint
+
+#SIMULATION
+
+#user:~$ ros2 action info /joint_trajectory_controller/follow_joint_trajectory -t
+#Action: /joint_trajectory_controller/follow_joint_trajectory
+#Action clients: 0
+#Action servers: 1
+#    /joint_trajectory_controller [control_msgs/action/FollowJointTrajectory]
+
+#user:~$ ros2 action info /gripper_controller/gripper_cmd -t
+#Action: /gripper_controller/gripper_cmd
+#Action clients: 0
+#Action servers: 1
+#    /gripper_controller [control_msgs/action/GripperCommand]
+
+#REAL
+
+#user:~$ ros2 action info /scaled_joint_trajectory_controller/follow_joint_trajectory -t
+#Action: /scaled_joint_trajectory_controller/follow_joint_trajectory
+#Action clients: 0
+#Action servers: 1
+#    /scaled_joint_trajectory_controller [control_msgs/action/FollowJointTrajectory]
+#
+#user:~$ ros2 action info /robotiq_gripper_controller/gripper_cmd -t
+#Action: /robotiq_gripper_controller/gripper_cmd
+#Action clients: 0
+#Action servers: 1
+#    /single_robotiq_85_action_server [control_msgs/action/GripperCommand]
