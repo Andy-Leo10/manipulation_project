@@ -16,7 +16,7 @@ ros2 control list_controllers
 ros2 topic echo /joint_states
 ```
 
-## Launch most importants nodes
+## Launch most importants nodes v.FK
 + Move Group
 ```
 ros2 launch my_moveit_config move_group.launch.py use_sim_time:=True
@@ -31,6 +31,23 @@ ros2 launch real_moveit_config moveit_rviz.launch.py
 ```
 ros2 launch moveit2_scripts pick_and_place.launch.py use_sim_time:=True
 ros2 launch moveit2_scripts pick_and_place.launch.py use_sim_time:=False
+```
+
+## Launch most importants nodes v.IK&Perception
++ Move Group
+```
+ros2 launch my_moveit_config move_group.launch.py use_sim_time:=True
+ros2 launch real_moveit_config move_group.launch.py use_sim_time:=False
+```
++ Robot Interface 
+```
+ros2 launch my_moveit_config moveit_rviz.launch.py
+ros2 launch real_moveit_config moveit_rviz.launch.py
+```
++ Custom Task: Pick & Place
+```
+ros2 launch moveit2_scripts pick_and_place_perception.launch.py
+ros2 launch moveit2_scripts pick_and_place_perception_real.launch.py
 ```
 
 ## Others

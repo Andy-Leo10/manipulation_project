@@ -44,6 +44,43 @@ public:
         return node_->get_parameter("is_robot_sim").as_bool();
     }
 
+    moveit_msgs::msg::CollisionObject createCollisionObject(
+        const std::string& id, 
+        const std::string& frame_id, 
+        const shape_msgs::msg::SolidPrimitive& primitive, 
+        const geometry_msgs::msg::Pose& pose) 
+    {
+        moveit_msgs::msg::CollisionObject collision_object;
+        collision_object.header.frame_id = frame_id;
+        collision_object.id = id;
+
+        collision_object.primitives.push_back(primitive);
+        collision_object.primitive_poses.push_back(pose);
+        collision_object.operation = collision_object.ADD;
+
+        RCLCPP_INFO(LOGGER, "Added an object into the world");
+        return collision_object;
+    }
+
+    shape_msgs::msg::SolidPrimitive createSolidPrimitiveBOX(double x, double y, double z) {
+        shape_msgs::msg::SolidPrimitive box;
+        box.type = shape_msgs::msg::SolidPrimitive::BOX;
+        box.dimensions.resize(3);
+        box.dimensions[0] = x; // x dimension
+        box.dimensions[1] = y; // y dimension
+        box.dimensions[2] = z; // z dimension
+        return box;
+    }
+
+    geometry_msgs::msg::Pose createPose(double x, double y, double z, double w) {
+        geometry_msgs::msg::Pose pose;
+        pose.orientation.w = w;
+        pose.position.x = x;
+        pose.position.y = y;
+        pose.position.z = z;
+        return pose;
+    }
+
     void move_joint_space(float angle_0, float angle_1, float angle_2, float angle_3, float angle_4, float angle_5) {
         RCLCPP_INFO(LOGGER, "---------------------------MOVE JOINT STATE!----------------------------------");
         moveit::core::RobotStatePtr current_state = move_group_arm->getCurrentState(10);
@@ -154,9 +191,9 @@ public:
         move_group_gripper->setNamedTarget(target_name);
 
         // Set planning time to 5 seconds
-        move_group_gripper->setPlanningTime(5.0);
+        move_group_gripper->setPlanningTime(7.0);
         // Set number of planning attempts to ..
-        move_group_gripper->setNumPlanningAttempts(10);
+        move_group_gripper->setNumPlanningAttempts(15);
 
         moveit::planning_interface::MoveGroupInterface::Plan my_plan_gripper;
         bool success_gripper = (move_group_gripper->plan(my_plan_gripper) == moveit::core::MoveItErrorCode::SUCCESS);
@@ -183,6 +220,11 @@ public:
         joint_group_positions[5] = 0; // robotiq_85_right_knuckle_joint
 
         move_group_gripper->setJointValueTarget(joint_group_positions);
+
+        // Set planning time to 5 seconds
+        move_group_gripper->setPlanningTime(5.0);
+        // Set number of planning attempts to ..
+        move_group_gripper->setNumPlanningAttempts(10);
 
         moveit::planning_interface::MoveGroupInterface::Plan my_plan;
 
@@ -388,6 +430,31 @@ int main(int argc, char **argv) {
     auto node = std::make_shared<rclcpp::Node>("for_check_arguments");
     RobotArm robotArm(node);
     
+    //SCENE
+    moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+    // Create vector to hold collision objects.
+    std::vector<moveit_msgs::msg::CollisionObject> collision_objects;
+    // create the table
+    auto table_object = robotArm.createCollisionObject(
+        "table", 
+        "base_link",
+        robotArm.createSolidPrimitiveBOX(1.5, 0.75, 0.02),
+        robotArm.createPose(1.5/2, 0.75/2, -0.02/2, 1.0)
+    );
+    // create the wall
+    auto wall_object = robotArm.createCollisionObject(
+        "wall", 
+        "base_link",
+        robotArm.createSolidPrimitiveBOX(2.0, 0.02, 1.0),
+        robotArm.createPose(1.5/2, 0.5+0.02/2, 1.0/2, 1.0)
+    );
+    // push the objects into the vector
+    collision_objects.push_back(table_object);
+    collision_objects.push_back(wall_object);
+    planning_scene_interface.addCollisionObjects(collision_objects);
+    // Wait for MoveGroup to recieve and process the collision object message.
+    rclcpp::sleep_for(std::chrono::seconds(2));
+
     //PERCEPTION
     auto action_client = std::make_shared<GetPoseClient>();
     while (!action_client->is_goal_done()) {
@@ -405,7 +472,7 @@ int main(int argc, char **argv) {
     // read the atributte 'is_robot_sim' of the object
     if(robotArm.get_is_robot_sim()) {
         RCLCPP_INFO(LOGGER, "\n\n\n Robot is simulated \n\n\n");
-        robotArm.move_end_effector(cube_pos_x_, cube_pos_y_, 0.30, -180.0, 0.0, 0.0);
+        robotArm.move_end_effector(cube_pos_x_, cube_pos_y_, 0.25, -180.0, 0.0, 0.0);
         robotArm.cmd_gripper("gripper_open");
         //std::vector<double> angles = robotArm.getArmJointPositions();
         //double angle_0 = angles[0];double angle_1 = angles[1];double angle_2 = angles[2];
@@ -414,9 +481,9 @@ int main(int argc, char **argv) {
         //else robotArm.move_joint_space(angle_0, angle_1, angle_2, angle_3, angle_4+M_PI, angle_5);
         robotArm.print_end_effector_position();
         
-        robotArm.move_waypoint(-0.15, "z");
-        // robotArm.cmd_gripper("gripper_close");
-        robotArm.move_gripper_space(0.65);
+        robotArm.move_waypoint(-0.08, "z");
+        //robotArm.cmd_gripper("gripper_close");
+        robotArm.move_gripper_space(0.69);
 
         robotArm.move_waypoint(0.10, "z");
 
