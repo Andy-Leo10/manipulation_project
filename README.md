@@ -82,5 +82,9 @@ Generate new cube in simulation
 ros2 run gazebo_ros spawn_entity.py -file /home/user/ros2_ws/src/manipulation_project/grasp_box.urdf -x 5.28 -y -3.84 -z 1.0 -entity grasp_box_x
 ```
 
+### Perception
+![description: perception](pictures/perception.png)
+### Pick
 ![description: pick](pictures/pick.png)
+### Place
 ![description: place](pictures/place.png)
