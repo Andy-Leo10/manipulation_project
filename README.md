@@ -50,6 +50,17 @@ ros2 launch moveit2_scripts pick_and_place_perception.launch.py
 ros2 launch moveit2_scripts pick_and_place_perception_real.launch.py
 ```
 
+## Test Perception 
++ Start the action 
+```
+ros2 run simple_grasping basic_grasping_perception_node --ros-args -p debug_topics:=true
+ros2 run simple_grasping basic_grasping_perception_node_real --ros-args -p debug_topics:=true
+```
++ Call the action 
+```
+ros2 action send_goal /find_objects grasping_msgs/action/FindGraspableObjects "{plan_grasps: false}"
+```
+
 ## Others
 GUI for arms
 ```
@@ -70,3 +81,6 @@ Generate new cube in simulation
 ```
 ros2 run gazebo_ros spawn_entity.py -file /home/user/ros2_ws/src/manipulation_project/grasp_box.urdf -x 5.28 -y -3.84 -z 1.0 -entity grasp_box_x
 ```
+
+![description: pick](pictures/pick.png)
+![description: place](pictures/place.png)
