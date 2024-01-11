@@ -490,7 +490,7 @@ int main(int argc, char **argv) {
         robotArm.move_joint_space(6.1, -1.64, -1.59, -1.47, 1.56, -5.70);
         robotArm.cmd_gripper("gripper_open");
     } else {
-        RCLCPP_INFO(LOGGER, "\n\n\n Robot is simulated \n\n\n");
+        RCLCPP_INFO(LOGGER, "\n\n\n Robot is real \n\n\n");
         robotArm.move_end_effector(cube_pos_x_, cube_pos_y_, 0.25, -180.0, 0.0, 0.0);
         robotArm.cmd_gripper("gripper_open");
         //std::vector<double> angles = robotArm.getArmJointPositions();
