@@ -11,25 +11,25 @@ def generate_launch_description():
     moveit_config = MoveItConfigsBuilder("my").to_moveit_configs()
 
     # Declare the launch argument
-    use_sim_time_arg = DeclareLaunchArgument('use_sim_time',default_value='True',
+    use_sim_time_arg = DeclareLaunchArgument('use_sim_time',default_value='False',
         description='Use simulation (Gazebo) clock if true')
     # Use the launch argument in the node configuration
     use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Perception action server for perception
     basic_grasping_perception_node = Node(
-        name="a_action_server_perception_node",
+        name="a_action_server_perception_node_reaal",
         package='simple_grasping',
-        executable='basic_grasping_perception_node',
+        executable='basic_grasping_perception_node_real',
         output='screen',
         parameters=[{'debug_topics': True}],
     )
 
     # MoveItCpp demo executable
     moveit_cpp_node = Node(
-        name="a_pick_and_place_perception",
+        name="a_pick_and_place_perception_real",
         package="moveit2_scripts",
-        executable="pick_and_place_perception",
+        executable="pick_and_place_perception_real",
         output="screen",
         parameters=[
             moveit_config.robot_description,

@@ -446,7 +446,7 @@ int main(int argc, char **argv) {
         "wall", 
         "base_link",
         robotArm.createSolidPrimitiveBOX(2.0, 0.02, 1.0),
-        robotArm.createPose(1.5/2, 0.5+0.02/2, 1.0/2, 1.0)
+        robotArm.createPose(1.5/2, 0.54+0.02/2, 1.0/2, 1.0)
     );
     // push the objects into the vector
     collision_objects.push_back(table_object);
