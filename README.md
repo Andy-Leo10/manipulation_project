@@ -84,7 +84,12 @@ ros2 run gazebo_ros spawn_entity.py -file /home/user/ros2_ws/src/manipulation_pr
 
 ### Perception
 ![description: perception](pictures/perception.png)
+
 ### Pick
 ![description: pick](pictures/pick.png)
+
 ### Place
 ![description: place](pictures/place.png)
+
+### Recording
+![description: video](pictures/recording.mp4)
