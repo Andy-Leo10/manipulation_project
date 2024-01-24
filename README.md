@@ -92,4 +92,8 @@ ros2 run gazebo_ros spawn_entity.py -file /home/user/ros2_ws/src/manipulation_pr
 ![description: place](pictures/place.png)
 
 ### Recording
+<video width="1024" height="768" controls>
+    <source src="pictures/recording.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
 ![description: video](pictures/recording.mp4)
